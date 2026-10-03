@@ -8,6 +8,15 @@ import { Button } from '@/components/ui/button';
 import { Package, Plus, Search, CheckCircle2, Truck, LayoutDashboard, Star, Megaphone } from 'lucide-react';
 import { toast } from 'sonner';
 
+
+const CATEGORY_MAP: Record<string, { subcategories: string[], brands: string[] }> = {
+  'Laptops': { subcategories: ['MacBooks', 'HP', 'Dell', 'Asus'], brands: ['Apple', 'HP', 'Dell', 'Asus'] },
+  'Phones': { subcategories: ['iPhones', 'Samsung', 'Google Pixels', 'Xiaomi'], brands: ['Apple', 'Samsung', 'Google', 'Xiaomi'] },
+  'Accessories': { subcategories: ['Mouse', 'SSDs', 'HDDs', 'SanDisk flash drives', 'SSD Enclosure', 'HDD enclosure 3.0'], brands: ['Logitech', 'Razer', 'Samsung', 'Crucial', 'Seagate', 'SanDisk', 'UGREEN', 'Orico'] },
+  'Networking': { subcategories: ['Starlink', 'Routers'], brands: ['SpaceX', 'TP-Link'] },
+  'Security': { subcategories: ['CCTV'], brands: ['Ubiquiti'] }
+};
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -24,6 +33,12 @@ export default function AdminDashboard() {
   const [category, setCategory] = useState('Laptops');
   const [isNewCategory, setIsNewCategory] = useState(false);
   const [customCategory, setCustomCategory] = useState('');
+
+  const [isNewSubcategory, setIsNewSubcategory] = useState(false);
+  const [customSubcategory, setCustomSubcategory] = useState('');
+  const [isNewBrand, setIsNewBrand] = useState(false);
+  const [customBrand, setCustomBrand] = useState('');
+
   const [subcategory, setSubcategory] = useState('');
   const [brand, setBrand] = useState('');
   const [desc, setDesc] = useState('');
@@ -110,14 +125,16 @@ export default function AdminDashboard() {
     
     const images = [image1, image2, image3].filter(img => img.trim() !== '');
     const finalCategory = isNewCategory ? customCategory : category;
+    const finalSubcategory = isNewSubcategory ? customSubcategory : subcategory;
+    const finalBrand = isNewBrand ? customBrand : brand;
 
     try {
       const { error } = await supabase.from('products').insert({
         title,
         price: Number(price),
         category: finalCategory,
-        subcategory: subcategory || null,
-        brand: brand || null,
+        subcategory: finalSubcategory || null,
+        brand: finalBrand || null,
         description: desc,
         stock_quantity: 100,
         slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
@@ -128,7 +145,7 @@ export default function AdminDashboard() {
       if (error) throw error;
 
       toast.success('Product added successfully!');
-      setTitle(''); setPrice(''); setCategory('Laptops'); setIsNewCategory(false); setCustomCategory(''); setSubcategory(''); setBrand(''); setDesc('');
+      setTitle(''); setPrice(''); setCategory('Laptops'); setIsNewCategory(false); setCustomCategory(''); setSubcategory(''); setIsNewSubcategory(false); setCustomSubcategory(''); setBrand(''); setIsNewBrand(false); setCustomBrand(''); setDesc('');
       setImage1(''); setImage2(''); setImage3('');
     } catch (err: any) {
       toast.error('Error adding product: ' + err.message);
@@ -275,7 +292,7 @@ export default function AdminDashboard() {
                       value={category} 
                       onChange={e => {
                         if (e.target.value === 'new') setIsNewCategory(true);
-                        else setCategory(e.target.value);
+                        else { setCategory(e.target.value); setSubcategory(''); setBrand(''); setIsNewSubcategory(false); setIsNewBrand(false); }
                       }} 
                       className="w-full bg-background border border-border rounded-xl px-4 py-2"
                     >
@@ -306,13 +323,77 @@ export default function AdminDashboard() {
                     </div>
                   )}
                 </div>
-                <div className="space-y-2">
+                                <div className="space-y-2">
                   <label className="text-sm font-medium">Subcategory</label>
-                  <input type="text" value={subcategory} onChange={e => setSubcategory(e.target.value)} className="w-full bg-background border border-border rounded-xl px-4 py-2" placeholder="e.g. MacBooks" />
+                  {!isNewSubcategory ? (
+                    <select 
+                      value={subcategory} 
+                      onChange={e => {
+                        if (e.target.value === 'new') setIsNewSubcategory(true);
+                        else setSubcategory(e.target.value);
+                      }} 
+                      className="w-full bg-background border border-border rounded-xl px-4 py-2"
+                    >
+                      <option value="">Select Subcategory...</option>
+                      {CATEGORY_MAP[category]?.subcategories.map(sub => (
+                        <option key={sub} value={sub}>{sub}</option>
+                      ))}
+                      <option value="new">+ Create New Subcategory...</option>
+                    </select>
+                  ) : (
+                    <div className="flex gap-2">
+                      <input 
+                        type="text" 
+                        value={customSubcategory} 
+                        onChange={e => setCustomSubcategory(e.target.value)} 
+                        className="w-full bg-background border border-border rounded-xl px-4 py-2" 
+                        placeholder="New Subcategory" 
+                      />
+                      <button 
+                        type="button" 
+                        onClick={() => setIsNewSubcategory(false)}
+                        className="px-3 py-2 bg-muted text-muted-foreground rounded-xl text-sm font-bold"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Brand</label>
-                  <input type="text" value={brand} onChange={e => setBrand(e.target.value)} className="w-full bg-background border border-border rounded-xl px-4 py-2" placeholder="e.g. Apple" />
+                  {!isNewBrand ? (
+                    <select 
+                      value={brand} 
+                      onChange={e => {
+                        if (e.target.value === 'new') setIsNewBrand(true);
+                        else setBrand(e.target.value);
+                      }} 
+                      className="w-full bg-background border border-border rounded-xl px-4 py-2"
+                    >
+                      <option value="">Select Brand...</option>
+                      {CATEGORY_MAP[category]?.brands.map(b => (
+                        <option key={b} value={b}>{b}</option>
+                      ))}
+                      <option value="new">+ Create New Brand...</option>
+                    </select>
+                  ) : (
+                    <div className="flex gap-2">
+                      <input 
+                        type="text" 
+                        value={customBrand} 
+                        onChange={e => setCustomBrand(e.target.value)} 
+                        className="w-full bg-background border border-border rounded-xl px-4 py-2" 
+                        placeholder="New Brand" 
+                      />
+                      <button 
+                        type="button" 
+                        onClick={() => setIsNewBrand(false)}
+                        className="px-3 py-2 bg-muted text-muted-foreground rounded-xl text-sm font-bold"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
 
