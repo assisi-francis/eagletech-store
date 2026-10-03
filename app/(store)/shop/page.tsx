@@ -130,7 +130,7 @@ export default function ShopPage({ searchParams }: { searchParams: { category?: 
                         <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">
                           {product.category}
                         </span>
-                        {product.id % 2 === 0 && <span className="text-[10px] font-bold tracking-wider uppercase text-green-600 bg-green-100 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded-full">In Stock</span>}
+                        {Number(product.id) % 2 === 0 && <span className="text-[10px] font-bold tracking-wider uppercase text-green-600 bg-green-100 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded-full">In Stock</span>}
                       </div>
                       
                       <h3 className="font-bold text-sm leading-tight line-clamp-2 mb-2 group-hover:text-primary transition-colors">
