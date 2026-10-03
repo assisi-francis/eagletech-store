@@ -8,8 +8,10 @@ import { toast } from 'sonner';
 import { usePaystackPayment } from 'react-paystack';
 import { ShieldCheck, Truck, CreditCard, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
+import { createPendingOrderAction, confirmOrderPaymentAction } from '@/app/actions/checkout';
 
 export default function CheckoutClient() {
+  const [pendingOrderId, setPendingOrderId] = useState<string | null>(null);
   const router = useRouter();
   const { items, getTotal, clearCart } = useCartStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -56,54 +58,72 @@ export default function CheckoutClient() {
 
   const initializePayment = usePaystackPayment(config);
 
-  const handleSuccess = async (reference: any) => {
+  
+  const handleSuccess = async (reference: any, orderId: string) => {
     try {
-      // Create order in Supabase
-      if (user) {
-        await supabase.from('orders').insert({
-          user_id: user.id,
-          total_amount: finalTotal,
-          payment_status: 'SUCCESSFUL',
-          order_status: 'PROCESSING',
-          paystack_reference: reference.reference,
-          shipping_address: `${formData.address}, ${formData.city}, ${formData.state}`
-        });
+      if (orderId) {
+        await confirmOrderPaymentAction(orderId, reference.reference);
       }
-
+      
       toast.success('Payment successful! Your order has been placed.', {
-        action: {
-          label: 'View Order',
-          onClick: () => router.push('/profile')
-        },
-        duration: 8000 // Keep it on screen longer so they can read it
+        description: `Reference: ${reference.reference}`
       });
       clearCart();
-      router.push('/profile'); // Redirect to profile to see order history (soon)
+      router.push('/profile');
     } catch (error) {
-      console.error(error);
-      toast.error('Order placed, but failed to save details.');
+      toast.error('Error confirming payment. Please contact support.');
+    } finally {
       setIsLoading(false);
     }
   };
+
 
   const handleClose = () => {
     setIsLoading(false);
     toast.error('Payment cancelled');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName || !formData.email || !formData.address || !formData.phone) {
       toast.error('Please fill in all required fields');
       return;
     }
+    if (!user) {
+      toast.error('Please log in to place an order');
+      router.push('/auth');
+      return;
+    }
     
     setIsLoading(true);
+
+    // 1. Create Pending Order & Send Email
+    const res = await createPendingOrderAction({
+      userId: user.id,
+      totalAmount: finalTotal,
+      shippingAddress: `${formData.address}, ${formData.city}, ${formData.state}`,
+      email: formData.email,
+      fullName: formData.fullName,
+      items: items,
+      paystackReference: config.reference
+    });
+
+    if (!res.success) {
+      toast.error(res.error || 'Failed to initialize order');
+      setIsLoading(false);
+      return;
+    }
+
+    setPendingOrderId(res.orderId);
+
+    // 2. Open Paystack
     initializePayment({ 
-      onSuccess: handleSuccess, 
+      onSuccess: (ref) => handleSuccess(ref, res.orderId), 
       onClose: handleClose 
     });
   };
+
 
   if (items.length === 0) return null;
   if (!mounted) return null;

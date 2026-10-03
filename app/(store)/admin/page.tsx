@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { updateOrderStatusAction } from '@/app/actions/orders';
 import { Button } from '@/components/ui/button';
 import { Package, Plus, Search, CheckCircle2, Truck, LayoutDashboard } from 'lucide-react';
 import { toast } from 'sonner';
@@ -51,12 +52,9 @@ export default function AdminDashboard() {
   }, [router]);
 
   const updateOrderStatus = async (orderId: string, status: string) => {
-    const { error } = await supabase
-      .from('orders')
-      .update({ order_status: status })
-      .eq('id', orderId);
+    const res = await updateOrderStatusAction(orderId, status);
 
-    if (error) {
+    if (!res.success) {
       toast.error('Failed to update order status');
     } else {
       toast.success(`Order marked as ${status}`);
