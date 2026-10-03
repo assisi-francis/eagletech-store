@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { mockProducts } from '@/lib/data';
 import Link from 'next/link';
 import { Heart, Search, SlidersHorizontal, ChevronDown } from 'lucide-react';
@@ -15,12 +15,18 @@ export default function ShopPage({ searchParams }: { searchParams: { category?: 
   const [searchQuery, setSearchQuery] = useState('');
   const [priceRange, setPriceRange] = useState<number>(3000000);
   
+  useEffect(() => {
+    if (searchParams.category) {
+      setActiveCategory(searchParams.category);
+    }
+  }, [searchParams.category]);
+
   const wishlistItems = useWishlistStore((state) => state.items);
   const toggleWishlist = useWishlistStore((state) => state.toggleWishlist);
 
   const filteredProducts = useMemo(() => {
     return mockProducts.filter((product) => {
-      const matchesCategory = activeCategory === 'All' || product.category === activeCategory;
+      const matchesCategory = activeCategory === 'All' || product.category.toLowerCase() === activeCategory.toLowerCase();
       const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesPrice = product.price <= priceRange;
       return matchesCategory && matchesSearch && matchesPrice;

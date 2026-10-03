@@ -31,7 +31,7 @@ export const mockProducts: Product[] = [
     ],
     "is_service": false,
     "brand": "Starlink",
-    "category": "Networking"
+    "category": "Starlink"
   },
   {
     "id": "3",
