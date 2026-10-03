@@ -8,6 +8,7 @@ import { useCartStore } from '@/store/useCartStore';
 import { mockProducts } from '@/lib/data';
 import { ShoppingCart, Menu, Search, User, Cpu, Zap, LogOut, X, Plus, Minus, Trash2, ShieldCheck, CheckCircle2, Package } from 'lucide-react';
 import { Button } from './ui/button';
+import { ThemeToggle } from './theme-toggle';
 import { supabase } from '@/lib/supabase';
 import { syncCartFromSupabase } from '@/store/useCartStore';
 
@@ -112,6 +113,8 @@ export function Navbar() {
         
         <div className="flex items-center gap-2 sm:gap-4 relative">
           
+          <ThemeToggle />
+
           <div className="hidden sm:flex items-center relative">
             <button
               onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
