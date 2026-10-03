@@ -5,12 +5,16 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/useCartStore';
+import { useWishlistStore } from '@/store/useWishlistStore';
+import { mockProducts } from '@/lib/data';
+import { Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { User, Mail, Calendar, LogOut, Fingerprint, ShieldCheck, Package, Clock, CheckCircle2, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ProfilePage() {
   const router = useRouter();
+  const wishlistItems = useWishlistStore((state) => state.items);
   const [user, setUser] = useState<any>(null);
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,6 +37,9 @@ export default function ProfilePage() {
         if (ordersData) {
           setOrders(ordersData);
         }
+        
+        // Fetch Wishlist
+        await useWishlistStore.getState().fetchWishlist(user.id);
       }
       setLoading(false);
     }
@@ -216,6 +223,56 @@ export default function ProfilePage() {
               ))}
             </div>
           )}
+        </div>
+
+        {/* Wishlist Dashboard */}
+        <div className="mt-12 space-y-6">
+          <div className="flex items-center gap-3">
+            <Heart className="w-6 h-6 text-primary" />
+            <h2 className="text-2xl font-bold">My Wishlist</h2>
+          </div>
+
+          {(() => {
+            const wishlistProducts = wishlistItems.map(slug => mockProducts.find(p => p.slug === slug)).filter(Boolean) as typeof mockProducts;
+
+            if (wishlistProducts.length === 0) {
+              return (
+                <div className="bg-card border border-border/50 rounded-3xl p-12 text-center shadow-sm">
+                  <Heart className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+                  <h3 className="text-lg font-bold mb-2">Your wishlist is empty</h3>
+                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">Save items you love so you don't lose track of them.</p>
+                  <Link href="/">
+                    <Button className="rounded-xl px-8">Explore Products</Button>
+                  </Link>
+                </div>
+              );
+            }
+
+            return (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {wishlistProducts.map((product) => (
+                  <Link key={product.id} href={`/product/${product.slug}`}>
+                    <div className="bg-card border border-border/50 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all group h-full flex flex-col">
+                      <div className="aspect-square bg-muted/30 rounded-xl mb-4 overflow-hidden relative">
+                        <img src={product.images?.[0] || product.image} alt={product.title} className="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" />
+                        <button 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (user) useWishlistStore.getState().toggleWishlist(product.slug, user.id);
+                          }}
+                          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/90 flex items-center justify-center shadow-sm hover:scale-110 transition-transform"
+                        >
+                          <Heart className="w-4 h-4 fill-red-500 text-red-500" />
+                        </button>
+                      </div>
+                      <h3 className="font-bold text-sm line-clamp-2 mb-1">{product.title}</h3>
+                      <p className="text-primary font-bold mt-auto">₦{product.price.toLocaleString()}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            );
+          })()}
         </div>
 
         {/* Action Buttons */}

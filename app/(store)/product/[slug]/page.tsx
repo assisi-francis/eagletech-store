@@ -1,11 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import { mockProducts } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, ShieldCheck, Truck, RotateCcw, ArrowLeft, Heart, ChevronRight, Check } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
+import { useWishlistStore } from '@/store/useWishlistStore';
+import { supabase } from '@/lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -15,9 +17,22 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   const product = mockProducts.find((p) => p.slug === params.slug);
   const addItem = useCartStore((state) => state.addItem);
   
+  const { items: wishlistItems, toggleWishlist, fetchWishlist } = useWishlistStore();
+  const [user, setUser] = useState<any>(null);
+  const isSaved = wishlistItems.includes(params.slug);
+
   const [activeImage, setActiveImage] = useState(0);
-  const [isSaved, setIsSaved] = useState(false);
   const [activeTab, setActiveTab] = useState('specs');
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        setUser(user);
+        fetchWishlist(user.id);
+      }
+    });
+  }, [fetchWishlist]);
 
   if (!product) {
     notFound();
@@ -28,9 +43,18 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     toast.success(`${product.title} added to cart!`);
   };
 
-  const handleSaveForLater = () => {
-    setIsSaved(!isSaved);
-    if (!isSaved) {
+  const handleSaveForLater = async () => {
+    if (!user) {
+      toast.error('Please sign in to save products to your wishlist.');
+      router.push('/auth');
+      return;
+    }
+
+    setIsWishlistLoading(true);
+    const added = await toggleWishlist(params.slug, user.id);
+    setIsWishlistLoading(false);
+    
+    if (added) {
       toast.success('Saved to your Wishlist!');
     } else {
       toast('Removed from Wishlist');
@@ -85,9 +109,10 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
               <button 
                 onClick={handleSaveForLater}
-                className="absolute top-6 right-6 w-12 h-12 rounded-full bg-background/90 shadow-sm backdrop-blur-md border border-border/50 flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
+                disabled={isWishlistLoading}
+                className="absolute top-6 right-6 w-12 h-12 rounded-full bg-background/90 shadow-sm backdrop-blur-md border border-border/50 flex items-center justify-center transition-transform hover:scale-110 active:scale-95 disabled:opacity-50 disabled:hover:scale-100"
               >
-                <Heart className={`w-5 h-5 transition-colors ${isSaved ? 'fill-red-500 text-red-500' : 'text-muted-foreground hover:text-foreground'}`} />
+                <Heart className={`w-5 h-5 transition-colors ${isSaved ? 'fill-red-500 text-red-500' : 'text-muted-foreground hover:text-foreground'} ${isWishlistLoading ? 'opacity-50 animate-pulse' : ''}`} />
               </button>
             </motion.div>
 
