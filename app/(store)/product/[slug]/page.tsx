@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import { mockProducts } from '@/lib/data';
 import { Button } from '@/components/ui/button';
+import { ProductReviews } from '@/components/product-reviews';
 import { ShoppingCart, ShieldCheck, Truck, RotateCcw, ArrowLeft, Heart, ChevronRight, Check } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
@@ -244,6 +245,11 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             </motion.div>
           </div>
 
+        </div>
+
+        {/* Reviews Section */}
+        <div className="mt-16">
+          <ProductReviews productSlug={product.slug} />
         </div>
       </div>
     </div>
