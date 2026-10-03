@@ -15,8 +15,6 @@ export function Navbar() {
   const { items, removeItem, updateQuantity, getTotal, addItem } = useCartStore();
   const itemCount = items.reduce((total, item) => total + item.cartQuantity, 0);
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   
   const [user, setUser] = useState<any>(null);
@@ -60,11 +58,6 @@ export function Navbar() {
     return () => subscription.unsubscribe();
   }, []);
 
-  const searchResults = mockProducts.filter(product => 
-    product.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    product.brand?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
@@ -120,52 +113,16 @@ export function Navbar() {
         <div className="flex items-center gap-2 sm:gap-4 relative">
           
           <div className="hidden sm:flex items-center relative">
-            <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-              <input 
-                type="text" 
-                placeholder="Search products, brands..." 
-                className="h-9 w-64 rounded-full border border-border bg-muted/50 pl-9 pr-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary transition-all"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setIsSearchOpen(true);
-                }}
-                onFocus={() => setIsSearchOpen(true)}
-                onBlur={() => setTimeout(() => setIsSearchOpen(false), 200)}
-              />
-            </div>
-            
-            {/* Search Results Dropdown */}
-            {isSearchOpen && searchQuery.trim().length > 0 && (
-              <div className="absolute top-full mt-2 w-[400px] right-0 bg-background border border-border rounded-2xl shadow-xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2">
-                <div className="p-2 max-h-[400px] overflow-y-auto">
-                  {searchResults.length > 0 ? (
-                    searchResults.map(product => (
-                      <Link 
-                        key={product.id} 
-                        href={`/product/${product.slug}`}
-                        className="flex items-center gap-4 p-2 hover:bg-muted rounded-xl transition-colors"
-                        onClick={() => {
-                          setIsSearchOpen(false);
-                          setSearchQuery('');
-                        }}
-                      >
-                        <img src={product.images[0]} alt={product.title} className="w-12 h-12 rounded-lg object-cover bg-muted" />
-                        <div>
-                          <p className="text-sm font-bold line-clamp-1">{product.title}</p>
-                          <p className="text-xs text-muted-foreground">{product.brand} • ₦{product.price.toLocaleString()}</p>
-                        </div>
-                      </Link>
-                    ))
-                  ) : (
-                    <div className="p-4 text-center text-sm text-muted-foreground">
-                      No products found for "{searchQuery}"
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+            <button
+              onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+              className="group relative flex items-center h-10 w-64 rounded-full border border-border/60 bg-muted/30 px-4 text-sm text-muted-foreground hover:bg-muted/80 hover:border-border transition-all"
+            >
+              <Search className="w-4 h-4 mr-2 opacity-70 group-hover:opacity-100 transition-opacity" />
+              <span>Search products...</span>
+              <kbd className="pointer-events-none absolute right-2 top-2 hidden h-6 select-none items-center gap-1 rounded-md border border-border/50 bg-background px-2 font-mono text-[10px] font-medium opacity-100 sm:flex shadow-sm">
+                <span className="text-xs">⌘</span>K
+              </kbd>
+            </button>
           </div>
 
           {user ? (
