@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { Toaster } from 'sonner';
 
 export default function StoreLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -7,6 +8,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />
+      <Toaster position="bottom-right" richColors />
     </div>
   );
 }

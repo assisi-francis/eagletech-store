@@ -1,4 +1,5 @@
 {
+  "/(store)/profile/page": "app/(store)/profile/page.js",
   "/(store)/page": "app/(store)/page.js",
   "/(store)/auth/page": "app/(store)/auth/page.js"
 }

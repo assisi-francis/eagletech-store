@@ -7,6 +7,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ShoppingCart } from 'lucide-react';
 
+import { toast } from 'sonner';
+
 export function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
 
@@ -61,6 +63,7 @@ export function ProductCard({ product }: { product: Product }) {
             onClick={(e) => {
               e.preventDefault();
               addItem(product);
+              toast.success(`${product.title} added to cart!`);
             }} 
             size="icon"
             className="h-11 w-11 rounded-full bg-primary shadow-lg shadow-primary/30 transition-transform hover:scale-105 active:scale-95 z-10 relative"
