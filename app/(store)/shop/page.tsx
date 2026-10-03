@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, Suspense } from 'react';
 import { mockProducts } from '@/lib/data';
 import Link from 'next/link';
 import { Heart, Search, SlidersHorizontal, ChevronDown } from 'lucide-react';
@@ -10,23 +10,27 @@ import { toast } from 'sonner';
 
 const categories = ['All', 'macbook', 'starlink', 'cctv', 'networking'];
 
-export default function ShopPage({ searchParams }: { searchParams: { category?: string } }) {
-  const [activeCategory, setActiveCategory] = useState(searchParams.category || 'All');
+import { useSearchParams } from 'next/navigation';
+
+function ShopContent() {
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get('category');
+  const [activeCategory, setActiveCategory] = useState(categoryParam || 'All');
   const [searchQuery, setSearchQuery] = useState('');
   const [priceRange, setPriceRange] = useState<number>(3000000);
   
   useEffect(() => {
-    if (searchParams.category) {
-      setActiveCategory(searchParams.category);
+    if (categoryParam) {
+      setActiveCategory(categoryParam);
     }
-  }, [searchParams.category]);
+  }, [categoryParam]);
 
   const wishlistItems = useWishlistStore((state) => state.items);
   const toggleWishlist = useWishlistStore((state) => state.toggleWishlist);
 
   const filteredProducts = useMemo(() => {
     return mockProducts.filter((product) => {
-      const matchesCategory = activeCategory === 'All' || product.category.toLowerCase() === activeCategory.toLowerCase();
+      const matchesCategory = activeCategory === 'All' || (product.category || '').toLowerCase() === activeCategory.toLowerCase();
       const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesPrice = product.price <= priceRange;
       return matchesCategory && matchesSearch && matchesPrice;
@@ -158,5 +162,14 @@ export default function ShopPage({ searchParams }: { searchParams: { category?: 
         </main>
       </div>
     </div>
+  );
+}
+
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-muted/10 pt-8 pb-24 flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>}>
+      <ShopContent />
+    </Suspense>
   );
 }
