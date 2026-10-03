@@ -22,6 +22,8 @@ export default function AdminDashboard() {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('Laptops');
+  const [isNewCategory, setIsNewCategory] = useState(false);
+  const [customCategory, setCustomCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
   const [brand, setBrand] = useState('');
   const [desc, setDesc] = useState('');
@@ -107,12 +109,13 @@ export default function AdminDashboard() {
     setIsSubmitting(true);
     
     const images = [image1, image2, image3].filter(img => img.trim() !== '');
+    const finalCategory = isNewCategory ? customCategory : category;
 
     try {
       const { error } = await supabase.from('products').insert({
         title,
         price: Number(price),
-        category,
+        category: finalCategory,
         subcategory: subcategory || null,
         brand: brand || null,
         description: desc,
@@ -125,7 +128,7 @@ export default function AdminDashboard() {
       if (error) throw error;
 
       toast.success('Product added successfully!');
-      setTitle(''); setPrice(''); setCategory('Laptops'); setSubcategory(''); setBrand(''); setDesc('');
+      setTitle(''); setPrice(''); setCategory('Laptops'); setIsNewCategory(false); setCustomCategory(''); setSubcategory(''); setBrand(''); setDesc('');
       setImage1(''); setImage2(''); setImage3('');
     } catch (err: any) {
       toast.error('Error adding product: ' + err.message);
@@ -266,7 +269,42 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Category</label>
-                  <input required type="text" value={category} onChange={e => setCategory(e.target.value)} className="w-full bg-background border border-border rounded-xl px-4 py-2" placeholder="e.g. Laptops" />
+                  {!isNewCategory ? (
+                    <select 
+                      required 
+                      value={category} 
+                      onChange={e => {
+                        if (e.target.value === 'new') setIsNewCategory(true);
+                        else setCategory(e.target.value);
+                      }} 
+                      className="w-full bg-background border border-border rounded-xl px-4 py-2"
+                    >
+                      <option value="Laptops">Laptops</option>
+                      <option value="Phones">Phones</option>
+                      <option value="Accessories">Accessories</option>
+                      <option value="Networking">Networking</option>
+                      <option value="Security">Security</option>
+                      <option value="new">+ Create New Category...</option>
+                    </select>
+                  ) : (
+                    <div className="flex gap-2">
+                      <input 
+                        required 
+                        type="text" 
+                        value={customCategory} 
+                        onChange={e => setCustomCategory(e.target.value)} 
+                        className="w-full bg-background border border-border rounded-xl px-4 py-2" 
+                        placeholder="New Category Name" 
+                      />
+                      <button 
+                        type="button" 
+                        onClick={() => setIsNewCategory(false)}
+                        className="px-3 py-2 bg-muted text-muted-foreground rounded-xl text-sm font-bold"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Subcategory</label>
