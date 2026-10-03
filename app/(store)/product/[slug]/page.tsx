@@ -98,7 +98,18 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                   transition={{ duration: 0.3 }}
                   src={images[activeImage]} 
                   alt={product.title} 
-                  className="h-full w-full object-contain mix-blend-multiply" 
+                  className="h-full w-full object-contain mix-blend-multiply cursor-grab active:cursor-grabbing" 
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={1}
+                  onDragEnd={(e, { offset, velocity }) => {
+                    const swipe = offset.x;
+                    if (swipe < -50 && activeImage < images.length - 1) {
+                      setActiveImage(activeImage + 1);
+                    } else if (swipe > 50 && activeImage > 0) {
+                      setActiveImage(activeImage - 1);
+                    }
+                  }}
                 />
               </AnimatePresence>
               
