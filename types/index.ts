@@ -8,6 +8,7 @@ export interface Product {
   images: string[];
   is_service: boolean;
   category?: string;
+  subcategory?: string;
   brand?: string;
   created_at?: string;
 }

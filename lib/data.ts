@@ -2,275 +2,303 @@ import { Product } from '@/types';
 
 export const mockProducts: Product[] = [
   {
-    "id": "1",
+    "id": "l1",
     "title": "MacBook Pro 16\" M3 Max",
     "slug": "macbook-pro-16-m3-max",
     "description": "The ultimate pro laptop with the incredibly fast M3 Max chip. 64GB RAM, 2TB SSD.",
     "price": 4500000,
     "stock_quantity": 10,
     "images": [
-      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Apple",
-    "category": "MacBook"
+    "category": "Laptops",
+    "subcategory": "MacBooks"
   },
   {
-    "id": "2",
+    "id": "l2",
+    "title": "MacBook Air 15\" M3",
+    "slug": "macbook-air-15-m3",
+    "description": "Supercharged by M3, incredibly thin and light. 16GB RAM, 512GB SSD.",
+    "price": 1800000,
+    "stock_quantity": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Apple",
+    "category": "Laptops",
+    "subcategory": "MacBooks"
+  },
+  {
+    "id": "l3",
+    "title": "HP Spectre x360 14",
+    "slug": "hp-spectre-x360-14",
+    "description": "Premium 2-in-1 convertible laptop. Intel Core Ultra 7, 32GB RAM, 1TB SSD.",
+    "price": 1950000,
+    "stock_quantity": 15,
+    "images": [
+      "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "HP",
+    "category": "Laptops",
+    "subcategory": "HP"
+  },
+  {
+    "id": "l4",
+    "title": "Dell XPS 15",
+    "slug": "dell-xps-15",
+    "description": "Stunning 4K OLED display, perfect for creators. Intel Core i9, 32GB RAM, 1TB SSD, RTX 4070.",
+    "price": 2800000,
+    "stock_quantity": 12,
+    "images": [
+      "https://images.unsplash.com/photo-1593642702821-c8f659ca2a53?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Dell",
+    "category": "Laptops",
+    "subcategory": "Dell"
+  },
+  {
+    "id": "l5",
+    "title": "ASUS ROG Zephyrus G14",
+    "slug": "asus-rog-zephyrus-g14",
+    "description": "High-performance gaming laptop in a compact form factor. AMD Ryzen 9, RTX 4060, 16GB RAM, 1TB SSD.",
+    "price": 2100000,
+    "stock_quantity": 8,
+    "images": [
+      "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Asus",
+    "category": "Laptops",
+    "subcategory": "Asus"
+  },
+  {
+    "id": "p1",
+    "title": "iPhone 15 Pro Max (256GB)",
+    "slug": "iphone-15-pro-max-256gb",
+    "description": "Forged in titanium. A17 Pro chip. The ultimate iPhone experience.",
+    "price": 1950000,
+    "stock_quantity": 40,
+    "images": [
+      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Apple",
+    "category": "Phones",
+    "subcategory": "iPhones"
+  },
+  {
+    "id": "p2",
+    "title": "Samsung Galaxy S24 Ultra",
+    "slug": "samsung-galaxy-s24-ultra",
+    "description": "Galaxy AI is here. 200MP camera, built-in S Pen, titanium exterior.",
+    "price": 1850000,
+    "stock_quantity": 35,
+    "images": [
+      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Samsung",
+    "category": "Phones",
+    "subcategory": "Samsung"
+  },
+  {
+    "id": "p3",
+    "title": "Google Pixel 8 Pro",
+    "slug": "google-pixel-8-pro",
+    "description": "The best of Google AI. Amazing camera, 7 years of updates.",
+    "price": 1100000,
+    "stock_quantity": 20,
+    "images": [
+      "https://images.unsplash.com/photo-1615829630983-3c97ea6837a2?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Google",
+    "category": "Phones",
+    "subcategory": "Google Pixels"
+  },
+  {
+    "id": "p4",
+    "title": "Xiaomi 14 Ultra",
+    "slug": "xiaomi-14-ultra",
+    "description": "Leica co-engineered cameras. SnapDragon 8 Gen 3.",
+    "price": 1400000,
+    "stock_quantity": 15,
+    "images": [
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "subcategory": "Xiaomi"
+  },
+  {
+    "id": "a1",
+    "title": "Logitech MX Master 3S",
+    "slug": "logitech-mx-master-3s",
+    "description": "The ultimate wireless productivity mouse. Quiet clicks, 8K DPI.",
+    "price": 120000,
+    "stock_quantity": 50,
+    "images": [
+      "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Logitech",
+    "category": "Accessories",
+    "subcategory": "Mouse"
+  },
+  {
+    "id": "a2",
+    "title": "Razer DeathAdder V3 Pro",
+    "slug": "razer-deathadder-v3-pro",
+    "description": "Ultra-lightweight wireless ergonomic esports gaming mouse.",
+    "price": 150000,
+    "stock_quantity": 30,
+    "images": [
+      "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Razer",
+    "category": "Accessories",
+    "subcategory": "Mouse"
+  },
+  {
+    "id": "a3",
+    "title": "Samsung 990 PRO NVMe M.2 SSD 2TB",
+    "slug": "samsung-990-pro-nvme-2tb",
+    "description": "Blazing fast PCIe 4.0 NVMe SSD. Up to 7450 MB/s read speed.",
+    "price": 250000,
+    "stock_quantity": 60,
+    "images": [
+      "https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Samsung",
+    "category": "Accessories",
+    "subcategory": "SSDs"
+  },
+  {
+    "id": "a4",
+    "title": "Crucial X9 Pro Portable SSD 1TB",
+    "slug": "crucial-x9-pro-portable-ssd-1tb",
+    "description": "High-performance portable SSD for creators. USB-C.",
+    "price": 140000,
+    "stock_quantity": 45,
+    "images": [
+      "https://images.unsplash.com/photo-1534938634952-b8832a82086e?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Crucial",
+    "category": "Accessories",
+    "subcategory": "SSDs"
+  },
+  {
+    "id": "a5",
+    "title": "Seagate BarraCuda 2TB Internal HDD",
+    "slug": "seagate-barracuda-2tb-hdd",
+    "description": "Versatile, fast, and dependable 3.5-inch hard drive.",
+    "price": 85000,
+    "stock_quantity": 100,
+    "images": [
+      "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Seagate",
+    "category": "Accessories",
+    "subcategory": "HDDs"
+  },
+  {
+    "id": "a6",
+    "title": "SanDisk Ultra Dual Drive USB Type-C 128GB",
+    "slug": "sandisk-ultra-dual-drive-128gb",
+    "description": "Easily free up space on your smartphone or transfer files between devices.",
+    "price": 25000,
+    "stock_quantity": 200,
+    "images": [
+      "https://images.unsplash.com/photo-1621360157947-f417a86f030a?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "SanDisk",
+    "category": "Accessories",
+    "subcategory": "SanDisk flash drives"
+  },
+  {
+    "id": "a7",
+    "title": "UGREEN M.2 NVMe SSD Enclosure 10Gbps",
+    "slug": "ugreen-nvme-ssd-enclosure",
+    "description": "Tool-free USB C 3.2 Gen 2 aluminum enclosure for NVMe PCIe M-Key.",
+    "price": 35000,
+    "stock_quantity": 80,
+    "images": [
+      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "UGREEN",
+    "category": "Accessories",
+    "subcategory": "SSD Enclosure"
+  },
+  {
+    "id": "a8",
+    "title": "Orico 2.5 inch HDD Enclosure USB 3.0",
+    "slug": "orico-hdd-enclosure-3",
+    "description": "Transparent external hard drive case for 2.5\" SATA HDD/SSD.",
+    "price": 15000,
+    "stock_quantity": 120,
+    "images": [
+      "https://images.unsplash.com/photo-1598099354020-f5a0db5a21e4?w=800&q=80"
+    ],
+    "is_service": false,
+    "brand": "Orico",
+    "category": "Accessories",
+    "subcategory": "HDD enclosure 3.0"
+  },
+  {
+    "id": "n1",
     "title": "Starlink Standard Kit",
     "slug": "starlink-standard-kit",
     "description": "High-speed, low-latency broadband internet. Includes WiFi router, power supply, and cables.",
     "price": 440000,
     "stock_quantity": 50,
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/1/1d/SpaceX_Starlink_User_Terminal_v2_%2851740775162%29.jpg",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
+      "https://upload.wikimedia.org/wikipedia/commons/1/1d/SpaceX_Starlink_User_Terminal_v2_%2851740775162%29.jpg"
     ],
     "is_service": false,
-    "brand": "Starlink",
-    "category": "Starlink"
+    "brand": "SpaceX",
+    "category": "Networking",
+    "subcategory": "Starlink"
   },
   {
-    "id": "3",
-    "title": "Samsung Galaxy S24 Ultra",
-    "slug": "samsung-galaxy-s24-ultra",
-    "description": "AI-powered flagship with a 200MP camera, Titanium frame, and S-Pen. 512GB, 12GB RAM.",
-    "price": 1850000,
-    "stock_quantity": 15,
-    "images": [
-      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": false,
-    "brand": "Samsung",
-    "category": "Smartphone"
-  },
-  {
-    "id": "4",
-    "title": "Dell XPS 15",
-    "slug": "dell-xps-15",
-    "description": "Premium thin-and-light laptop with 13th Gen Intel Core i7, 32GB RAM, 1TB SSD, RTX 4050.",
-    "price": 2100000,
-    "stock_quantity": 8,
-    "images": [
-      "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": false,
-    "brand": "Dell",
-    "category": "Laptops"
-  },
-  {
-    "id": "5",
-    "title": "Sony PlayStation 5",
-    "slug": "sony-playstation-5",
-    "description": "Next-gen gaming console with lightning-fast loading, 3D audio, and stunning 4K visuals.",
+    "id": "n2",
+    "title": "TP-Link Deco BE85 Wi-Fi 7 Mesh",
+    "slug": "tp-link-deco-be85",
+    "description": "Next-gen Wi-Fi 7 mesh system for whole-home coverage and extreme speeds.",
     "price": 850000,
-    "stock_quantity": 20,
-    "images": [
-      "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": false,
-    "brand": "Sony",
-    "category": "Hardware"
-  },
-  {
-    "id": "6",
-    "title": "Apple iPhone 15 Pro",
-    "slug": "apple-iphone-15-pro",
-    "description": "Titanium design, A17 Pro chip, and a more advanced 48MP main camera. 256GB.",
-    "price": 1500000,
-    "stock_quantity": 30,
-    "images": [
-      "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": false,
-    "brand": "Apple",
-    "category": "MacBook"
-  },
-  {
-    "id": "a1",
-    "title": "Logitech MX Master 3S",
-    "slug": "logitech-mx-master-3s",
-    "description": "Advanced wireless mouse with ultra-fast scrolling, ergonomic design, and 8K DPI tracking.",
-    "price": 125000,
-    "stock_quantity": 45,
-    "images": [
-      "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": false,
-    "brand": "Logitech",
-    "category": "Accessories"
-  },
-  {
-    "id": "a2",
-    "title": "Samsung 990 PRO 2TB SSD",
-    "slug": "samsung-990-pro-2tb-ssd",
-    "description": "PCIe 4.0 NVMe M.2 internal solid state drive. Blistering fast read/write speeds for gaming and creators.",
-    "price": 180000,
-    "stock_quantity": 25,
-    "images": [
-      "/images/samsung-ssd.jpg",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": false,
-    "brand": "Samsung",
-    "category": "Accessories"
-  },
-  {
-    "id": "a3",
-    "title": "Seagate 4TB External HDD",
-    "slug": "seagate-4tb-external-hdd",
-    "description": "Portable external hard drive, USB 3.0. Massive storage capacity for backups and media.",
-    "price": 95000,
-    "stock_quantity": 60,
-    "images": [
-      "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": false,
-    "brand": "Seagate",
-    "category": "Accessories"
-  },
-  {
-    "id": "a4",
-    "title": "Keychron K2 Mechanical Keyboard",
-    "slug": "keychron-k2",
-    "description": "Wireless mechanical keyboard with tactile brown switches, Mac/Windows layout, and RGB backlight.",
-    "price": 85000,
-    "stock_quantity": 15,
-    "images": [
-      "https://images.unsplash.com/photo-1595225476474-87563907a212?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": false,
-    "brand": "Keychron",
-    "category": "Accessories"
-  },
-  {
-    "id": "a5",
-    "title": "Sony WH-1000XM5 Headphones",
-    "slug": "sony-wh-1000xm5",
-    "description": "Industry-leading noise cancellation, 30-hour battery life, and crystal-clear hands-free calling.",
-    "price": 350000,
-    "stock_quantity": 20,
-    "images": [
-      "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": false,
-    "brand": "Sony",
-    "category": "Hardware"
-  },
-  {
-    "id": "a6",
-    "title": "Anker PowerExpand 8-in-1 Hub",
-    "slug": "anker-usb-c-hub",
-    "description": "USB-C hub with 4K HDMI, 100W Power Delivery, SD card reader, and Gigabit Ethernet.",
-    "price": 65000,
-    "stock_quantity": 80,
-    "images": [
-      "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": false,
-    "brand": "Anker",
-    "category": "Accessories"
-  },
-  {
-    "id": "a7",
-    "title": "Dell UltraSharp 27\" 4K Monitor",
-    "slug": "dell-ultrasharp-27",
-    "description": "Stunning 4K UHD resolution, USB-C connectivity, and precise color calibration for professionals.",
-    "price": 550000,
     "stock_quantity": 10,
     "images": [
-      "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
+      "https://images.unsplash.com/photo-1544654803-b69140b285a1?w=800&q=80"
     ],
     "is_service": false,
-    "brand": "Dell",
-    "category": "Laptops"
-  },
-  {
-    "id": "a8",
-    "title": "Logitech Brio 4K Webcam",
-    "slug": "logitech-brio-4k",
-    "description": "Ultra HD webcam for video conferencing, streaming, and recording. Features RightLight 3 and HDR.",
-    "price": 185000,
-    "stock_quantity": 35,
-    "images": [
-      "/images/logitech-webcam.jpg",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": false,
-    "brand": "Logitech",
-    "category": "Accessories"
+    "brand": "TP-Link",
+    "category": "Networking",
+    "subcategory": "Routers"
   },
   {
     "id": "s1",
-    "title": "Standard Starlink Installation",
-    "slug": "standard-starlink-installation",
-    "description": "Basic ground or balcony setup. Includes router configuration, basic cabling (up to 15m), and network optimization. Ideal for standard homes.",
-    "price": 50000,
-    "stock_quantity": 999,
+    "title": "Ubiquiti UniFi Protect G4 Pro Camera",
+    "slug": "ubiquiti-unifi-protect-g4-pro",
+    "description": "4K video resolution, 3x optical zoom, and high-power infrared LEDs for night vision.",
+    "price": 450000,
+    "stock_quantity": 20,
     "images": [
-      "https://images.unsplash.com/photo-1544396821-4dd40b938ad3?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
+      "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80"
     ],
-    "is_service": true,
-    "brand": "EagleTech Services",
-    "category": "Hardware"
-  },
-  {
-    "id": "s2",
-    "title": "Premium Roof Mount Installation",
-    "slug": "premium-roof-mount-installation",
-    "description": "Professional roof mounting for unobstructed sky view. Includes heavy-duty brackets, weather-sealed cabling (up to 30m), and advanced mesh setup.",
-    "price": 120000,
-    "stock_quantity": 999,
-    "images": [
-      "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": true,
-    "brand": "EagleTech Services",
-    "category": "Hardware"
-  },
-  {
-    "id": "s3",
-    "title": "Enterprise Multi-Node Setup",
-    "slug": "enterprise-multi-node-setup",
-    "description": "Commercial grade setup for large offices or estates. Includes Starlink mounting, load balancing, multi-node Wi-Fi 6 access points, and dedicated support.",
-    "price": 350000,
-    "stock_quantity": 999,
-    "images": [
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
-      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
-      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
-    ],
-    "is_service": true,
-    "brand": "EagleTech Services",
-    "category": "Hardware"
+    "is_service": false,
+    "brand": "Ubiquiti",
+    "category": "Security",
+    "subcategory": "CCTV"
   }
 ];
