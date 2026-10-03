@@ -353,9 +353,11 @@ export function Navbar() {
                       <span className="text-primary">₦{getTotal().toLocaleString()}</span>
                     </div>
                     
-                    <Button className="w-full py-5 text-sm font-bold rounded-xl shadow-lg shadow-primary/20">
-                      Secure Checkout
-                    </Button>
+                    <Link href="/checkout" onClick={() => setIsCartOpen(false)}>
+                      <Button className="w-full py-5 text-sm font-bold rounded-xl shadow-lg shadow-primary/20">
+                        Secure Checkout
+                      </Button>
+                    </Link>
                     
                     <div className="flex items-center justify-center gap-1.5 pt-1 opacity-60">
                       <ShieldCheck className="w-3.5 h-3.5 text-green-500" />
