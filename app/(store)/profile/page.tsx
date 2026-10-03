@@ -254,7 +254,7 @@ export default function ProfilePage() {
                   <Link key={product.id} href={`/product/${product.slug}`}>
                     <div className="bg-card border border-border/50 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all group h-full flex flex-col">
                       <div className="aspect-square bg-muted/30 rounded-xl mb-4 overflow-hidden relative">
-                        <img src={product.images?.[0] || product.image} alt={product.title} className="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" />
+                        <img src={product.images?.[0] || ''} alt={product.title} className="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" />
                         <button 
                           onClick={(e) => {
                             e.preventDefault();
