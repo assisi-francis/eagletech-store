@@ -27,6 +27,13 @@ export default function AdminDashboard() {
         router.push('/auth');
         return;
       }
+      
+      if (user.email !== 'doncyco123@gmail.com') {
+        toast.error('Unauthorized: Admin access only');
+        router.push('/');
+        return;
+      }
+
       setIsAdmin(true);
 
       // Fetch all orders
