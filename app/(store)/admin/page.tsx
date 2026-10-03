@@ -70,16 +70,14 @@ export default function AdminDashboard() {
       .from('reviews')
       .select('*, profiles(full_name)')
       .eq('status', 'pending')
-      .order('created_at', { ascending: false })
-      .catch(() => ({ data: [] })); // Fallback if column doesn't exist yet
+      .order('created_at', { ascending: false }); // Fallback if column doesn't exist yet
     if (reviewsData) setReviews(reviewsData);
 
     // Fetch Campaigns
     const { data: campData } = await supabase
       .from('campaigns')
       .select('*')
-      .order('created_at', { ascending: false })
-      .catch(() => ({ data: [] }));
+      .order('created_at', { ascending: false });
     if (campData) setCampaigns(campData);
 
     setLoading(false);

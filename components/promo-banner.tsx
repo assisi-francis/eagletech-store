@@ -16,8 +16,7 @@ export function PromoBanner() {
         .eq('is_active', true)
         .order('created_at', { ascending: false })
         .limit(1)
-        .single()
-        .catch(() => ({ data: null }));
+        .single();
 
       if (data) {
         setCampaign(data);
