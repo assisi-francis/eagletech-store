@@ -54,7 +54,7 @@ export function CommandMenu() {
                 key={product.id}
                 value={product.title + ' ' + product.brand + ' ' + (product as any).category}
                 onSelect={() => {
-                  router.push(`/product/${product.id}`) 
+                  router.push(`/product/${product.slug}`) 
                   setOpen(false)
                 }}
                 className="flex items-center gap-4 p-3 mt-1 rounded-xl cursor-pointer hover:bg-primary/5 aria-selected:bg-primary/10 aria-selected:text-primary transition-colors group"
