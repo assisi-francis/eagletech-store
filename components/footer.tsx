@@ -50,10 +50,10 @@ export function Footer() {
           <div>
             <h3 className="font-bold mb-4">Shop</h3>
             <ul className="space-y-3">
-              <li><Link href="/catalog?category=macbook" className="text-sm text-muted-foreground hover:text-primary transition-colors">MacBooks</Link></li>
-              <li><Link href="/catalog?category=starlink" className="text-sm text-muted-foreground hover:text-primary transition-colors">Starlink Kits</Link></li>
-              <li><Link href="/catalog?category=cctv" className="text-sm text-muted-foreground hover:text-primary transition-colors">Security Cameras</Link></li>
-              <li><Link href="/catalog?category=networking" className="text-sm text-muted-foreground hover:text-primary transition-colors">Networking Gear</Link></li>
+              <li><Link href="/shop?category=macbook" className="text-sm text-muted-foreground hover:text-primary transition-colors">MacBooks</Link></li>
+              <li><Link href="/shop?category=starlink" className="text-sm text-muted-foreground hover:text-primary transition-colors">Starlink Kits</Link></li>
+              <li><Link href="/shop?category=cctv" className="text-sm text-muted-foreground hover:text-primary transition-colors">Security Cameras</Link></li>
+              <li><Link href="/shop?category=networking" className="text-sm text-muted-foreground hover:text-primary transition-colors">Networking Gear</Link></li>
             </ul>
           </div>
 

@@ -91,19 +91,19 @@ export function Navbar() {
           </Link>
           <div className="hidden md:flex items-center gap-1 ml-4 bg-muted/30 p-1 rounded-full border border-border/50">
             <Link 
-              href="/catalog" 
+              href="/shop" 
               className="px-4 py-1.5 rounded-full text-sm font-bold text-muted-foreground hover:text-foreground hover:bg-background hover:shadow-sm transition-all"
             >
               Catalog
             </Link>
             <Link 
-              href="/catalog?category=macbook" 
+              href="/shop?category=macbook" 
               className="px-4 py-1.5 rounded-full text-sm font-bold text-muted-foreground hover:text-foreground hover:bg-background hover:shadow-sm transition-all"
             >
               MacBooks
             </Link>
             <Link 
-              href="/catalog?category=starlink" 
+              href="/shop?category=starlink" 
               className="px-4 py-1.5 rounded-full text-sm font-bold text-muted-foreground hover:text-foreground hover:bg-background hover:shadow-sm transition-all"
             >
               Starlink
