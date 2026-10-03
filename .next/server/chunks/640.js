@@ -1,0 +1,1 @@
+"use strict";exports.id=640,exports.ids=[640],exports.modules={640:(e,t,o)=>{o.r(t),o.d(t,{default:()=>r});let r=(0,o(8570).createProxy)(String.raw`/Users/macbook/Downloads/FrontEnd_Training/eagletech-store/components/checkout-client.tsx#default`)}};

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Heart, Search, SlidersHorizontal, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useWishlistStore } from '@/store/useWishlistStore';
+import { toast } from 'sonner';
 
 const categories = ['All', 'macbook', 'starlink', 'cctv', 'networking'];
 

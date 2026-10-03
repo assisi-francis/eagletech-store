@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, ArrowRight, Github, Twitter, Linkedin, Facebook } from 'lucide-react';
+import { Mail, ArrowRight, Globe, MessageCircle, Rss } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -40,9 +40,9 @@ export function Footer() {
               Premium hardware, reliable networking equipment, and expert field service installations—all in one place.
             </p>
             <div className="flex items-center gap-4 pt-2">
-              <a href="#" className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all"><Twitter className="w-4 h-4" /></a>
-              <a href="#" className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all"><Github className="w-4 h-4" /></a>
-              <a href="#" className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all"><Linkedin className="w-4 h-4" /></a>
+              <a href="#" className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all"><Globe className="w-4 h-4" /></a>
+              <a href="#" className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all"><MessageCircle className="w-4 h-4" /></a>
+              <a href="#" className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all"><Rss className="w-4 h-4" /></a>
             </div>
           </div>
 
