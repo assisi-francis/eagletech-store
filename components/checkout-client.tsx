@@ -69,7 +69,7 @@ export default function CheckoutClient() {
         description: `Reference: ${reference.reference}`
       });
       clearCart();
-      router.push('/profile');
+      router.push('/');
     } catch (error) {
       toast.error('Error confirming payment. Please contact support.');
     } finally {
