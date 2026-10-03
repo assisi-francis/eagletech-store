@@ -14,7 +14,6 @@ export default function CheckoutPage() {
   const { items, getTotal, clearCart } = useCartStore();
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<any>(null);
-
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -23,8 +22,10 @@ export default function CheckoutPage() {
     city: '',
     state: ''
   });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setUser(session.user);
@@ -69,7 +70,13 @@ export default function CheckoutPage() {
         });
       }
 
-      toast.success('Payment successful! Your order has been placed.');
+      toast.success('Payment successful! Your order has been placed.', {
+        action: {
+          label: 'View Order',
+          onClick: () => router.push('/profile')
+        },
+        duration: 8000 // Keep it on screen longer so they can read it
+      });
       clearCart();
       router.push('/profile'); // Redirect to profile to see order history (soon)
     } catch (error) {
@@ -99,6 +106,7 @@ export default function CheckoutPage() {
   };
 
   if (items.length === 0) return null;
+  if (!mounted) return null;
 
   return (
     <div className="min-h-screen bg-muted/30 pt-24 pb-12">

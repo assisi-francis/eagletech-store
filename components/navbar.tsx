@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import Link from 'next/link';
 import { useCartStore } from '@/store/useCartStore';
 import { mockProducts } from '@/lib/data';
-import { ShoppingCart, Menu, Search, User, Cpu, Zap, LogOut, X, Plus, Minus, Trash2, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { ShoppingCart, Menu, Search, User, Cpu, Zap, LogOut, X, Plus, Minus, Trash2, ShieldCheck, CheckCircle2, Package } from 'lucide-react';
 import { Button } from './ui/button';
 import { supabase } from '@/lib/supabase';
 import { syncCartFromSupabase } from '@/store/useCartStore';
@@ -194,7 +194,15 @@ export function Navbar() {
                         onClick={() => setIsProfileOpen(false)}
                       >
                         <User className="w-4 h-4 mr-2 text-muted-foreground" />
-                        Profile
+                        My Profile
+                      </Link>
+                      <Link 
+                        href="/profile" 
+                        className="flex items-center px-3 py-2.5 text-sm hover:bg-muted rounded-lg transition-colors font-medium"
+                        onClick={() => setIsProfileOpen(false)}
+                      >
+                        <Package className="w-4 h-4 mr-2 text-muted-foreground" />
+                        My Orders
                       </Link>
                       <div className="h-px bg-border my-1" />
                       <button 

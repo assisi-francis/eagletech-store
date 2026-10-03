@@ -6,24 +6,37 @@ import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/useCartStore';
 import { motion } from 'framer-motion';
-import { User, Mail, Calendar, LogOut, Fingerprint, ShieldCheck } from 'lucide-react';
+import { User, Mail, Calendar, LogOut, Fingerprint, ShieldCheck, Package, Clock, CheckCircle2, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ProfilePage() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
+  const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function getUser() {
+    async function getUserAndOrders() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         router.push('/auth');
       } else {
         setUser(user);
+        
+        // Fetch Orders
+        const { data: ordersData } = await supabase
+          .from('orders')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
+          
+        if (ordersData) {
+          setOrders(ordersData);
+        }
       }
       setLoading(false);
     }
-    getUser();
+    getUserAndOrders();
   }, [router]);
 
   if (loading) {
@@ -45,12 +58,44 @@ export default function ProfilePage() {
   const displayName = user.user_metadata?.full_name || 'EagleTech User';
   const initial = displayName.charAt(0).toUpperCase();
 
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'PROCESSING':
+        return (
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/10 text-blue-500 text-xs font-bold border border-blue-500/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
+            PROCESSING
+          </div>
+        );
+      case 'SHIPPED':
+        return (
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-xs font-bold border border-orange-500/20">
+            <Clock className="w-3 h-3 mr-1.5" />
+            SHIPPED
+          </div>
+        );
+      case 'DELIVERED':
+        return (
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-500/10 text-green-500 text-xs font-bold border border-green-500/20">
+            <CheckCircle2 className="w-3 h-3 mr-1.5" />
+            DELIVERED
+          </div>
+        );
+      default:
+        return (
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-bold">
+            {status}
+          </div>
+        );
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-12">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-3xl mx-auto space-y-8"
+        className="max-w-4xl mx-auto space-y-8"
       >
         <div className="flex items-center space-x-4 mb-8">
           <User className="w-8 h-8 text-primary" />
@@ -88,7 +133,7 @@ export default function ProfilePage() {
                   <div className="w-10 h-10 rounded-full bg-background flex items-center justify-center shadow-sm">
                     <Mail className="w-5 h-5 text-muted-foreground" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Email Address</p>
                     <p className="font-medium text-sm truncate">{user.email}</p>
                   </div>
@@ -108,7 +153,7 @@ export default function ProfilePage() {
                   <div className="w-10 h-10 rounded-full bg-background flex items-center justify-center shadow-sm">
                     <Fingerprint className="w-5 h-5 text-muted-foreground" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Unique Account ID</p>
                     <p className="font-medium text-xs font-mono truncate text-muted-foreground">{user.id}</p>
                   </div>
@@ -118,15 +163,63 @@ export default function ProfilePage() {
           </div>
         </div>
 
+        {/* Recent Orders Dashboard */}
+        <div className="mt-12 space-y-6">
+          <div className="flex items-center gap-3">
+            <Package className="w-6 h-6 text-primary" />
+            <h2 className="text-2xl font-bold">Recent Orders</h2>
+          </div>
+
+          {orders.length === 0 ? (
+            <div className="bg-card border border-border/50 rounded-3xl p-12 text-center shadow-sm">
+              <Package className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+              <h3 className="text-lg font-bold mb-2">No orders yet</h3>
+              <p className="text-muted-foreground mb-6 max-w-md mx-auto">When you place an order, it will appear here along with its tracking status.</p>
+              <Link href="/">
+                <Button className="rounded-xl px-8">Start Shopping</Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {orders.map((order) => (
+                <div key={order.id} className="bg-card border border-border/50 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow group">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    
+                    {/* Order Meta */}
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-3">
+                        <span className="font-bold text-lg">₦{order.total_amount.toLocaleString()}</span>
+                        {getStatusBadge(order.order_status)}
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Calendar className="w-4 h-4" />
+                        {new Date(order.created_at).toLocaleDateString('en-US', {
+                          weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Order Details Grid */}
+                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-border/50 md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6">
+                      <div>
+                        <p className="text-xs text-muted-foreground uppercase font-bold mb-1">Paystack Ref</p>
+                        <p className="text-sm font-mono">{order.paystack_reference}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground uppercase font-bold mb-1">Shipping To</p>
+                        <p className="text-sm line-clamp-2">{order.shipping_address}</p>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-end">
-          <Button 
-            variant="outline" 
-            className="rounded-xl px-8 py-6 font-semibold"
-            onClick={() => router.push('/')}
-          >
-            Continue Shopping
-          </Button>
+        <div className="flex flex-col sm:flex-row gap-4 justify-end pt-8">
           <Button 
             variant="destructive" 
             className="rounded-xl px-8 py-6 font-semibold shadow-lg shadow-destructive/20"
