@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import Link from 'next/link';
 import { useCartStore } from '@/store/useCartStore';
 import { mockProducts } from '@/lib/data';
-import { ShoppingCart, Menu, Search, User, Cpu, Zap, LogOut, X, Plus, Minus, Trash2, ShieldCheck, CheckCircle2, Package } from 'lucide-react';
+import { ShoppingCart, Menu, Search, User, Cpu, Zap, LogOut, X, Plus, Minus, Trash2, ShieldCheck, CheckCircle2, Package, Shield } from 'lucide-react';
 import { Button } from './ui/button';
 import { ThemeToggle } from './theme-toggle';
 import { supabase } from '@/lib/supabase';
@@ -164,6 +164,18 @@ export function Navbar() {
                         <Package className="w-4 h-4 mr-2 text-muted-foreground" />
                         My Orders
                       </Link>
+                      
+                      {user.email === 'doncyco123@gmail.com' && (
+                        <Link 
+                          href="/admin" 
+                          className="flex items-center px-3 py-2.5 text-sm hover:bg-muted rounded-lg transition-colors font-medium text-primary"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          <Shield className="w-4 h-4 mr-2" />
+                          Admin Dashboard
+                        </Link>
+                      )}
+
                       <div className="h-px bg-border my-1" />
                       <button 
                         onClick={async () => {
