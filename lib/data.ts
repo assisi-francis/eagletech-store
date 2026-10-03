@@ -9,7 +9,9 @@ export const mockProducts: Product[] = [
     "price": 4500000,
     "stock_quantity": 10,
     "images": [
-      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80"
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Apple",
@@ -23,7 +25,9 @@ export const mockProducts: Product[] = [
     "price": 440000,
     "stock_quantity": 50,
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/1/1d/SpaceX_Starlink_User_Terminal_v2_%2851740775162%29.jpg"
+      "https://upload.wikimedia.org/wikipedia/commons/1/1d/SpaceX_Starlink_User_Terminal_v2_%2851740775162%29.jpg",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Starlink",
@@ -37,7 +41,9 @@ export const mockProducts: Product[] = [
     "price": 1850000,
     "stock_quantity": 15,
     "images": [
-      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&q=80"
+      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Samsung",
@@ -51,7 +57,9 @@ export const mockProducts: Product[] = [
     "price": 2100000,
     "stock_quantity": 8,
     "images": [
-      "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800&q=80"
+      "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Dell",
@@ -65,7 +73,9 @@ export const mockProducts: Product[] = [
     "price": 850000,
     "stock_quantity": 20,
     "images": [
-      "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800&q=80"
+      "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Sony",
@@ -79,7 +89,9 @@ export const mockProducts: Product[] = [
     "price": 1500000,
     "stock_quantity": 30,
     "images": [
-      "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=800&q=80"
+      "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Apple",
@@ -93,7 +105,9 @@ export const mockProducts: Product[] = [
     "price": 125000,
     "stock_quantity": 45,
     "images": [
-      "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80"
+      "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Logitech",
@@ -107,7 +121,9 @@ export const mockProducts: Product[] = [
     "price": 180000,
     "stock_quantity": 25,
     "images": [
-      "/images/samsung-ssd.jpg"
+      "/images/samsung-ssd.jpg",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Samsung",
@@ -121,7 +137,9 @@ export const mockProducts: Product[] = [
     "price": 95000,
     "stock_quantity": 60,
     "images": [
-      "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=800&q=80"
+      "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Seagate",
@@ -135,7 +153,9 @@ export const mockProducts: Product[] = [
     "price": 85000,
     "stock_quantity": 15,
     "images": [
-      "https://images.unsplash.com/photo-1595225476474-87563907a212?w=800&q=80"
+      "https://images.unsplash.com/photo-1595225476474-87563907a212?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Keychron",
@@ -149,7 +169,9 @@ export const mockProducts: Product[] = [
     "price": 350000,
     "stock_quantity": 20,
     "images": [
-      "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800&q=80"
+      "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Sony",
@@ -163,7 +185,9 @@ export const mockProducts: Product[] = [
     "price": 65000,
     "stock_quantity": 80,
     "images": [
-      "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80"
+      "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Anker",
@@ -177,7 +201,9 @@ export const mockProducts: Product[] = [
     "price": 550000,
     "stock_quantity": 10,
     "images": [
-      "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&q=80"
+      "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Dell",
@@ -191,7 +217,9 @@ export const mockProducts: Product[] = [
     "price": 185000,
     "stock_quantity": 35,
     "images": [
-      "/images/logitech-webcam.jpg"
+      "/images/logitech-webcam.jpg",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": false,
     "brand": "Logitech",
@@ -205,7 +233,9 @@ export const mockProducts: Product[] = [
     "price": 50000,
     "stock_quantity": 999,
     "images": [
-      "https://images.unsplash.com/photo-1544396821-4dd40b938ad3?w=800&q=80"
+      "https://images.unsplash.com/photo-1544396821-4dd40b938ad3?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": true,
     "brand": "EagleTech Services",
@@ -219,7 +249,9 @@ export const mockProducts: Product[] = [
     "price": 120000,
     "stock_quantity": 999,
     "images": [
-      "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?w=800&q=80"
+      "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": true,
     "brand": "EagleTech Services",
@@ -233,7 +265,9 @@ export const mockProducts: Product[] = [
     "price": 350000,
     "stock_quantity": 999,
     "images": [
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80"
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=800&q=80"
     ],
     "is_service": true,
     "brand": "EagleTech Services",
