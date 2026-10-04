@@ -100,7 +100,7 @@ export default function AdminDashboard() {
   async function fetchData(token: string) {
     // Fetch Orders
     const ordersRes = await getAllOrdersAdminAction(token);
-    if (ordersRes.success) setOrders(ordersRes.orders);
+    if (ordersRes.success) setOrders(ordersRes.orders || []);
 
     // Fetch Pending Reviews
     const { data: reviewsData } = await supabase
