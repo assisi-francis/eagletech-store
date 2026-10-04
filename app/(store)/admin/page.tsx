@@ -77,7 +77,8 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     async function checkAdminAndFetch() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user;
       if (!user) {
         router.push('/auth');
         return;
@@ -90,15 +91,15 @@ export default function AdminDashboard() {
       }
 
       setIsAdmin(true);
-      fetchData();
+      fetchData(session.access_token);
     }
 
     checkAdminAndFetch();
   }, [router]);
 
-  async function fetchData() {
+  async function fetchData(token: string) {
     // Fetch Orders
-    const ordersRes = await getAllOrdersAdminAction();
+    const ordersRes = await getAllOrdersAdminAction(token);
     if (ordersRes.success) setOrders(ordersRes.orders);
 
     // Fetch Pending Reviews
@@ -121,7 +122,8 @@ export default function AdminDashboard() {
 
   const handleUpdateStatus = async (orderId: string, nextStatus: string) => {
     try {
-      const res = await updateOrderStatusAction(orderId, nextStatus);
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await updateOrderStatusAction(orderId, nextStatus, session?.access_token || '');
       if (res.success) {
         toast.success(`Order marked as ${nextStatus}`);
         setOrders(orders.map(o => o.id === orderId ? { ...o, order_status: nextStatus } : o));

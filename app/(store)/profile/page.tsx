@@ -24,7 +24,8 @@ export default function ProfilePage() {
   
   const handleConfirmReceipt = async (orderId: string) => {
     try {
-      const res = await customerConfirmReceiptAction(orderId);
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await customerConfirmReceiptAction(orderId, session?.access_token || '');
       if (res.success) {
         toast.success('Thank you! Order marked as delivered.');
         setOrders(orders.map(o => o.id === orderId ? { ...o, order_status: 'DELIVERED' } : o));
@@ -38,7 +39,8 @@ export default function ProfilePage() {
 
   useEffect(() => {
     async function getUserAndOrders() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user;
       if (!user) {
         router.push('/auth');
       } else {

@@ -1,27 +1,19 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { createServerClient } from '@supabase/ssr';
+import { createClient } from '@supabase/supabase-js';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { sendOrderStatusEmail } from '@/lib/brevo';
 
-export async function updateOrderStatusAction(orderId: string, status: string) {
+export async function updateOrderStatusAction(orderId: string, status: string, token: string) {
   try {
-    const cookieStore = cookies();
-    const supabaseServer = createServerClient(
+    const supabaseServer = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value;
-          },
-        },
-      }
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
-    // 1. Verify the session on the server securely
-    const { data: { user }, error: authError } = await supabaseServer.auth.getUser();
+    // 1. Verify the session using the provided JWT token
+    const { data: { user }, error: authError } = await supabaseServer.auth.getUser(token);
     if (authError || !user || user.email !== 'doncyco123@gmail.com') {
       throw new Error('Forbidden: Admin access only');
     }
@@ -55,23 +47,15 @@ export async function updateOrderStatusAction(orderId: string, status: string) {
   }
 }
 
-export async function getAllOrdersAdminAction() {
+export async function getAllOrdersAdminAction(token: string) {
   try {
-    const cookieStore = cookies();
-    const supabaseServer = createServerClient(
+    const supabaseServer = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value;
-          },
-        },
-      }
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
-    // 1. Verify the session on the server securely
-    const { data: { user }, error: authError } = await supabaseServer.auth.getUser();
+    // 1. Verify the session securely
+    const { data: { user }, error: authError } = await supabaseServer.auth.getUser(token);
     
     if (authError || !user) {
       throw new Error('Unauthorized');
@@ -95,23 +79,15 @@ export async function getAllOrdersAdminAction() {
   }
 }
 
-export async function customerConfirmReceiptAction(orderId: string) {
+export async function customerConfirmReceiptAction(orderId: string, token: string) {
   try {
-    const cookieStore = cookies();
-    const supabaseServer = createServerClient(
+    const supabaseServer = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value;
-          },
-        },
-      }
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
     // 1. Verify the session
-    const { data: { user }, error: authError } = await supabaseServer.auth.getUser();
+    const { data: { user }, error: authError } = await supabaseServer.auth.getUser(token);
     if (authError || !user) {
       throw new Error('Unauthorized');
     }
