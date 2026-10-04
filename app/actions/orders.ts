@@ -94,3 +94,48 @@ export async function getAllOrdersAdminAction() {
     return { success: false, error: err.message };
   }
 }
+
+export async function customerConfirmReceiptAction(orderId: string) {
+  try {
+    const cookieStore = cookies();
+    const supabaseServer = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStore.get(name)?.value;
+          },
+        },
+      }
+    );
+
+    // 1. Verify the session
+    const { data: { user }, error: authError } = await supabaseServer.auth.getUser();
+    if (authError || !user) {
+      throw new Error('Unauthorized');
+    }
+
+    // 2. Make sure the order actually belongs to this user
+    const { data: order, error: fetchError } = await supabaseServer
+      .from('orders')
+      .select('user_id')
+      .eq('id', orderId)
+      .single();
+
+    if (fetchError || order?.user_id !== user.id) {
+      throw new Error('Order not found or forbidden');
+    }
+
+    // 3. Update to DELIVERED
+    const { error } = await supabaseAdmin
+      .from('orders')
+      .update({ order_status: 'DELIVERED' })
+      .eq('id', orderId);
+
+    if (error) throw error;
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}

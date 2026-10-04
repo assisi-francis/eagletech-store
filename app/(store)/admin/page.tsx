@@ -119,14 +119,9 @@ export default function AdminDashboard() {
     setLoading(false);
   }
 
-  const handleUpdateStatus = async (orderId: string, currentStatus: string) => {
-    const nextStatus = currentStatus === 'PROCESSING' ? 'SHIPPED' : 
-                       currentStatus === 'SHIPPED' ? 'DELIVERED' : currentStatus;
-    
-    if (nextStatus === currentStatus) return;
-
+  const handleUpdateStatus = async (orderId: string, nextStatus: string) => {
     try {
-      const res = await updateOrderStatusAction(orderId, nextStatus as any);
+      const res = await updateOrderStatusAction(orderId, nextStatus);
       if (res.success) {
         toast.success(`Order marked as ${nextStatus}`);
         setOrders(orders.map(o => o.id === orderId ? { ...o, order_status: nextStatus } : o));
@@ -246,8 +241,7 @@ export default function AdminDashboard() {
                       <th className="px-6 py-3">Date</th>
                       <th className="px-6 py-3">Amount</th>
                       <th className="px-6 py-3">Payment</th>
-                      <th className="px-6 py-3">Status</th>
-                      <th className="px-6 py-3 rounded-r-lg">Action</th>
+                      <th className="px-6 py-3 rounded-r-lg">Status & Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -262,21 +256,17 @@ export default function AdminDashboard() {
                           </span>
                         </td>
                         <td className="px-6 py-4">
-                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-500">
-                            {order.order_status}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4">
-                          {order.payment_status === 'SUCCESSFUL' && order.order_status !== 'DELIVERED' && (
-                            <Button 
-                              size="sm" 
-                              onClick={() => handleUpdateStatus(order.id, order.order_status)}
-                              className="text-xs h-8 flex items-center gap-1"
-                            >
-                              {order.order_status === 'PROCESSING' ? <Truck className="w-3 h-3" /> : <CheckCircle2 className="w-3 h-3" />}
-                              {order.order_status === 'PROCESSING' ? 'Mark Shipped' : 'Mark Delivered'}
-                            </Button>
-                          )}
+                          <select 
+                            value={order.order_status}
+                            onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                            className="bg-background border border-border text-xs rounded-lg px-2 py-1 font-bold outline-none"
+                          >
+                            <option value="PENDING">PENDING</option>
+                            <option value="PROCESSING">PROCESSING</option>
+                            <option value="SHIPPED">SHIPPED</option>
+                            <option value="ARRIVED">ARRIVED</option>
+                            <option value="DELIVERED">DELIVERED</option>
+                          </select>
                         </td>
                       </tr>
                     ))}

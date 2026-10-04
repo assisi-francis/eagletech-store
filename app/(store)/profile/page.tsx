@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { customerConfirmReceiptAction } from '@/app/actions/orders';
+import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/useCartStore';
@@ -18,6 +20,21 @@ export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  
+  const handleConfirmReceipt = async (orderId: string) => {
+    try {
+      const res = await customerConfirmReceiptAction(orderId);
+      if (res.success) {
+        toast.success('Thank you! Order marked as delivered.');
+        setOrders(orders.map(o => o.id === orderId ? { ...o, order_status: 'DELIVERED' } : o));
+      } else {
+        throw new Error(res.error);
+      }
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to confirm receipt');
+    }
+  };
 
   useEffect(() => {
     async function getUserAndOrders() {
@@ -198,12 +215,19 @@ export default function ProfilePage() {
                         <span className="font-bold text-lg">₦{order.total_amount.toLocaleString()}</span>
                         {getStatusBadge(order.order_status)}
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Calendar className="w-4 h-4" />
                         {new Date(order.created_at).toLocaleDateString('en-US', {
                           weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
                         })}
                       </div>
+                      {(order.order_status === 'SHIPPED' || order.order_status === 'ARRIVED') && (
+                        <div className="pt-2">
+                          <Button size="sm" onClick={() => handleConfirmReceipt(order.id)} className="w-full sm:w-auto gap-2">
+                            <CheckCircle2 className="w-4 h-4" /> I have received my order
+                          </Button>
+                        </div>
+                      )}
                     </div>
 
                     {/* Order Details Grid */}
