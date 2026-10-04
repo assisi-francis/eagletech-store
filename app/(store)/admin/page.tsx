@@ -17,6 +17,28 @@ const CATEGORY_MAP: Record<string, { subcategories: string[], brands: string[] }
   'Security': { subcategories: ['CCTV'], brands: ['Ubiquiti'] }
 };
 
+
+const SUBCATEGORY_BRAND_MAP: Record<string, string[]> = {
+  'MacBooks': ['Apple'],
+  'HP': ['HP'],
+  'Dell': ['Dell'],
+  'Asus': ['Asus'],
+  'iPhones': ['Apple'],
+  'Samsung': ['Samsung'],
+  'Google Pixels': ['Google'],
+  'Xiaomi': ['Xiaomi'],
+  'Mouse': ['Logitech', 'Razer'],
+  'SSDs': ['Samsung', 'Crucial'],
+  'HDDs': ['Seagate'],
+  'SanDisk flash drives': ['SanDisk'],
+  'SSD Enclosure': ['UGREEN'],
+  'HDD enclosure 2.0': ['Orico'],
+  'HDD enclosure 3.0': ['Orico'],
+  'Starlink': ['SpaceX'],
+  'Routers': ['TP-Link'],
+  'CCTV': ['Ubiquiti']
+};
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -330,7 +352,11 @@ export default function AdminDashboard() {
                       value={subcategory} 
                       onChange={e => {
                         if (e.target.value === 'new') setIsNewSubcategory(true);
-                        else setSubcategory(e.target.value);
+                        else {
+                          setSubcategory(e.target.value);
+                          setBrand('');
+                          setIsNewBrand(false);
+                        }
                       }} 
                       className="w-full bg-background border border-border rounded-xl px-4 py-2"
                     >
@@ -371,7 +397,7 @@ export default function AdminDashboard() {
                       className="w-full bg-background border border-border rounded-xl px-4 py-2"
                     >
                       <option value="">Select Brand...</option>
-                      {CATEGORY_MAP[category]?.brands.map(b => (
+                      {(SUBCATEGORY_BRAND_MAP[subcategory] || []).map(b => (
                         <option key={b} value={b}>{b}</option>
                       ))}
                       <option value="new">+ Create New Brand...</option>
