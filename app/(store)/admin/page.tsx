@@ -98,7 +98,7 @@ export default function AdminDashboard() {
 
   async function fetchData() {
     // Fetch Orders
-    const ordersRes = await getAllOrdersAdminAction('doncyco123@gmail.com');
+    const ordersRes = await getAllOrdersAdminAction();
     if (ordersRes.success) setOrders(ordersRes.orders);
 
     // Fetch Pending Reviews
