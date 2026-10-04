@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { updateOrderStatusAction } from '@/app/actions/orders';
+import { updateOrderStatusAction, getAllOrdersAdminAction } from '@/app/actions/orders';
 import { Button } from '@/components/ui/button';
 import { Package, Plus, Search, CheckCircle2, Truck, LayoutDashboard, Star, Megaphone } from 'lucide-react';
 import { toast } from 'sonner';
@@ -98,11 +98,8 @@ export default function AdminDashboard() {
 
   async function fetchData() {
     // Fetch Orders
-    const { data: ordersData } = await supabase
-      .from('orders')
-      .select('*')
-      .order('created_at', { ascending: false });
-    if (ordersData) setOrders(ordersData);
+    const ordersRes = await getAllOrdersAdminAction('doncyco123@gmail.com');
+    if (ordersRes.success) setOrders(ordersRes.orders);
 
     // Fetch Pending Reviews
     const { data: reviewsData } = await supabase

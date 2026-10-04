@@ -33,3 +33,21 @@ export async function updateOrderStatusAction(orderId: string, status: string) {
     return { success: false, error: err.message };
   }
 }
+
+export async function getAllOrdersAdminAction(adminEmail: string) {
+  try {
+    if (adminEmail !== 'doncyco123@gmail.com') {
+      throw new Error('Unauthorized');
+    }
+
+    const { data: orders, error } = await supabaseAdmin
+      .from('orders')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return { success: true, orders };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
