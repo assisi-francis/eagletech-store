@@ -179,9 +179,15 @@ export function Navbar() {
                       <div className="h-px bg-border my-1" />
                       <button 
                         onClick={async () => {
-                          await supabase.auth.signOut();
-                          useCartStore.getState().clearCart();
-                          setIsProfileOpen(false);
+                          try {
+                            await supabase.auth.signOut();
+                          } catch (e) {
+                            console.error('Sign out error:', e);
+                          } finally {
+                            useCartStore.getState().clearCart();
+                            setIsProfileOpen(false);
+                            window.location.href = '/auth'; // Force full refresh to clear all states and redirect
+                          }
                         }}
                         className="w-full flex items-center px-3 py-2.5 text-sm font-medium text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
                       >

@@ -307,9 +307,14 @@ export default function ProfilePage() {
             variant="destructive" 
             className="rounded-xl px-8 py-6 font-semibold shadow-lg shadow-destructive/20"
             onClick={async () => {
-              await supabase.auth.signOut();
-              useCartStore.getState().clearCart();
-              router.push('/auth');
+              try {
+                await supabase.auth.signOut();
+              } catch (e) {
+                console.error('Sign out error:', e);
+              } finally {
+                useCartStore.getState().clearCart();
+                window.location.href = '/auth';
+              }
             }}
           >
             <LogOut className="w-4 h-4 mr-2" />
