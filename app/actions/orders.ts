@@ -22,14 +22,17 @@ export async function updateOrderStatusAction(orderId: string, status: string, t
       .from('orders')
       .update({ order_status: status })
       .eq('id', orderId)
-      .select('*, profiles(full_name, email)')
+      .select('*, profiles(full_name)')
       .single();
 
     if (error) throw error;
 
     // Determine customer email and name
-    const customerEmail = order.profiles?.email;
     const customerName = order.profiles?.full_name || 'Valued Customer';
+    
+    // Fetch user email using Admin API
+    const { data: userData } = await supabaseAdmin.auth.admin.getUserById(order.user_id);
+    const customerEmail = userData?.user?.email;
 
     if (customerEmail) {
       await sendOrderStatusEmail({
