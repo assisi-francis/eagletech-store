@@ -20,6 +20,7 @@ export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [wishlistProducts, setWishlistProducts] = useState<any[]>([]);
 
   
   const handleConfirmReceipt = async (orderId: string) => {
@@ -36,6 +37,14 @@ export default function ProfilePage() {
       toast.error(err.message || 'Failed to confirm receipt');
     }
   };
+
+  useEffect(() => {
+    if (wishlistItems.length > 0) {
+      supabase.from('products').select('*').in('slug', wishlistItems).then(({ data }) => setWishlistProducts(data || []));
+    } else {
+      setWishlistProducts([]);
+    }
+  }, [wishlistItems]);
 
   useEffect(() => {
     async function getUserAndOrders() {
@@ -259,7 +268,7 @@ export default function ProfilePage() {
           </div>
 
           {(() => {
-            const wishlistProducts = wishlistItems.map(slug => mockProducts.find(p => p.slug === slug)).filter(Boolean) as typeof mockProducts;
+            
 
             if (wishlistProducts.length === 0) {
               return (
