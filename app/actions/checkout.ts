@@ -34,7 +34,7 @@ export async function createPendingOrderAction(data: {
       order_id: order.id,
       product_id: item.id,
       quantity: item.cartQuantity,
-      price: item.price
+      unit_price: item.price
     }));
 
     const { error: itemsError } = await supabaseAdmin

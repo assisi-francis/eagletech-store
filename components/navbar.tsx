@@ -11,10 +11,45 @@ import { Button } from './ui/button';
 import { ThemeToggle } from './theme-toggle';
 import { supabase } from '@/lib/supabase';
 import { syncCartFromSupabase } from '@/store/useCartStore';
+import { useWishlistStore } from '@/store/useWishlistStore';
 
 export function Navbar() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    let cartSub: any;
+    let wishlistSub: any;
+    
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        cartSub = supabase
+          .channel('web-carts-channel')
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'carts', filter: `user_id=eq.${session.user.id}` }, 
+            () => { syncCartFromSupabase(); }
+          )
+          .subscribe();
+          
+        wishlistSub = supabase
+          .channel('web-wishlist-channel')
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'wishlist', filter: `user_id=eq.${session.user.id}` }, 
+            () => { useWishlistStore.getState().fetchWishlist(session.user.id); }
+          )
+          .subscribe();
+      }
+    });
+
+    return () => {
+      if (cartSub) supabase.removeChannel(cartSub);
+      if (wishlistSub) supabase.removeChannel(wishlistSub);
+    };
+  }, []);
+
+
+  
+
   const { items, removeItem, updateQuantity, getTotal, addItem } = useCartStore();
-  const itemCount = items.reduce((total, item) => total + item.cartQuantity, 0);
+  const itemCount = mounted ? items.reduce((total, item) => total + item.cartQuantity, 0) : 0;
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   
@@ -230,7 +265,7 @@ export function Navbar() {
                     <ShoppingCart className="w-4 h-4 text-primary" />
                     Your Cart
                     <span className="text-xs font-normal text-muted-foreground bg-muted px-2 py-0.5 rounded-full ml-1">
-                      {itemCount}
+                      {mounted ? itemCount : 0}
                     </span>
                   </h2>
                 </div>
@@ -238,26 +273,26 @@ export function Navbar() {
                 {/* Free Shipping Progress */}
                 <div className="px-4 py-3 border-b border-border/50 bg-muted/10">
                   <div className="flex justify-between items-center text-xs font-bold mb-2">
-                    {getTotal() >= 1000000 ? (
+                    {(mounted ? getTotal() : 0) >= 1000000 ? (
                       <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 animate-in fade-in zoom-in duration-300">
                         <CheckCircle2 className="w-4 h-4" />
                         <span>Free Premium Shipping Unlocked</span>
                       </div>
                     ) : (
-                      <span>Add ₦{(1000000 - getTotal()).toLocaleString()} more for <span className="text-primary">Free Shipping</span></span>
+                      <span>Add ₦{(1000000 - (mounted ? getTotal() : 0)).toLocaleString()} more for <span className="text-primary">Free Shipping</span></span>
                     )}
                   </div>
                   <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
                     <div 
-                      className={`h-full transition-all duration-500 ease-out rounded-full ${getTotal() >= 1000000 ? 'bg-gradient-to-r from-emerald-400 to-emerald-500' : 'bg-primary'}`}
-                      style={{ width: `${Math.min((getTotal() / 1000000) * 100, 100)}%` }}
+                      className={`h-full transition-all duration-500 ease-out rounded-full ${(mounted ? getTotal() : 0) >= 1000000 ? 'bg-gradient-to-r from-emerald-400 to-emerald-500' : 'bg-primary'}`}
+                      style={{ width: `${Math.min(((mounted ? getTotal() : 0) / 1000000) * 100, 100)}%` }}
                     />
                   </div>
                 </div>
 
                 {/* Cart Items */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
-                  {items.length === 0 ? (
+                  {(!mounted || items.length === 0) ? (
                     <div className="py-8 flex flex-col items-center justify-center text-center space-y-3 opacity-70">
                       <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
                         <ShoppingCart className="w-6 h-6 text-muted-foreground" />
@@ -303,7 +338,7 @@ export function Navbar() {
                 </div>
 
                 {/* 1-Click Upsells */}
-                {items.length > 0 && (
+                {(mounted && items.length > 0) && (
                   <div className="px-4 py-3 bg-muted/30 border-t border-border/50">
                     <p className="text-[10px] font-bold text-muted-foreground mb-2">FREQUENTLY BOUGHT TOGETHER</p>
                     <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-none">
@@ -332,7 +367,7 @@ export function Navbar() {
                 )}
 
                 {/* Footer / Checkout */}
-                {items.length > 0 && (
+                {(mounted && items.length > 0) && (
                   <div className="p-4 border-t border-border/50 bg-card shadow-[0_-10px_40px_rgba(0,0,0,0.05)] space-y-3 z-10">
                     <div className="flex items-center justify-between text-sm font-bold">
                       <span>Total</span>

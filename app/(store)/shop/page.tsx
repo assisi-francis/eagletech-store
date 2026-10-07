@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, Suspense } from 'react';
-import { mockProducts } from '@/lib/data';
+import { supabase } from "@/lib/supabase";
 import Link from 'next/link';
 import { Heart, Search, SlidersHorizontal, ChevronDown, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,31 @@ const categoryGroups = [
   { name: 'Security', subcategories: ['CCTV'] }
 ];
 
+
+const categoryMap: Record<string, string> = {
+  'dell-xps-15': 'Laptops',
+  'google-pixel-8-pro': 'Phones',
+  'crucial-x9-pro': 'Accessories',
+  'sandisk-ultra-1tb': 'Accessories',
+  'orico-enclosure': 'Accessories',
+  'starlink-standard': 'Networking'
+};
+const brandMap: Record<string, string> = {
+  'dell-xps-15': 'Dell',
+  'google-pixel-8-pro': 'Google',
+  'crucial-x9-pro': 'Crucial',
+  'sandisk-ultra-1tb': 'SanDisk',
+  'orico-enclosure': 'Orico',
+  'starlink-standard': 'SpaceX'
+};
+
 function ShopContent() {
+  const [mockProducts, setMockProducts] = useState<any[]>([]);
+  useEffect(() => {
+    supabase.from('products').select('*').order('created_at', { ascending: false }).then(({ data }) => {
+      if (data) setMockProducts(data.map((p: any) => ({ ...p, category: categoryMap[p.slug] || "Other", brand: brandMap[p.slug] })));
+    });
+  }, []);
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category');
   
@@ -229,6 +253,12 @@ function ShopContent() {
 }
 
 export default function ShopPage() {
+  const [mockProducts, setMockProducts] = useState<any[]>([]);
+  useEffect(() => {
+    supabase.from('products').select('*').order('created_at', { ascending: false }).then(({ data }) => {
+      if (data) setMockProducts(data);
+    });
+  }, []);
   return (
     <Suspense fallback={<div className="min-h-screen bg-muted/10 pt-8 pb-24 flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>}>
       <ShopContent />

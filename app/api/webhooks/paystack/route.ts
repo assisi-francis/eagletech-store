@@ -49,7 +49,7 @@ export async function POST(req: Request) {
           items: order.order_items.map((item: any) => ({
             name: item.products?.title || 'Unknown Item',
             quantity: item.quantity,
-            price: item.price
+            price: item.unit_price
           }))
         });
       }

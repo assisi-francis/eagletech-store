@@ -1,8 +1,0 @@
-{
-  "/_not-found/page": "app/_not-found/page.js",
-  "/(store)/auth/page": "app/(store)/auth/page.js",
-  "/(store)/checkout/page": "app/(store)/checkout/page.js",
-  "/(store)/page": "app/(store)/page.js",
-  "/(store)/profile/page": "app/(store)/profile/page.js",
-  "/(store)/product/[slug]/page": "app/(store)/product/[slug]/page.js"
-}

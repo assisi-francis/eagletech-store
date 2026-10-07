@@ -1,21 +1,65 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { supabase } from "@/lib/supabase";
 import { notFound } from 'next/navigation';
-import { mockProducts } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { ProductReviews } from '@/components/product-reviews';
 import { ShoppingCart, ShieldCheck, Truck, RotateCcw, ArrowLeft, Heart, ChevronRight, Check } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
-import { supabase } from '@/lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
+
+const categoryMap: Record<string, string> = {
+  'dell-xps-15': 'Laptops',
+  'google-pixel-8-pro': 'Phones',
+  'crucial-x9-pro': 'Accessories',
+  'sandisk-ultra-1tb': 'Accessories',
+  'orico-enclosure': 'Accessories',
+  'starlink-standard': 'Networking'
+};
+const brandMap: Record<string, string> = {
+  'dell-xps-15': 'Dell',
+  'google-pixel-8-pro': 'Google',
+  'crucial-x9-pro': 'Crucial',
+  'sandisk-ultra-1tb': 'SanDisk',
+  'orico-enclosure': 'Orico',
+  'starlink-standard': 'SpaceX'
+};
+const specsMap: Record<string, any> = {
+  'dell-xps-15': { "CPU": "Intel Core i9-13900H", "RAM": "32GB DDR5", "Storage": "1TB NVMe SSD", "Display": "15.6inch 3.5K OLED Touch" },
+  'google-pixel-8-pro': { "Screen": "6.7 inch OLED", "Camera": "50MP Main + 48MP Ultrawide", "Storage": "128GB", "Processor": "Tensor G3" },
+  'crucial-x9-pro': { "Capacity": "2TB", "Type": "Portable SSD", "Interface": "USB-C 3.2 Gen 2", "Speed": "Up to 1050MB/s" },
+  'sandisk-ultra-1tb': { "Capacity": "1TB", "Type": "USB-C / USB-A", "Speed": "150MB/s", "Material": "Metal" },
+  'orico-enclosure': { "Size": "2.5 inch", "Interface": "USB 3.0", "Material": "Transparent PC", "Support": "Up to 4TB" },
+  'starlink-standard': { "Type": "Satellite Internet", "Speed": "Up to 200Mbps", "Included": "Dish, Router, Cables, Base", "Latency": "20ms" }
+};
+const descMap: Record<string, string> = {
+  'dell-xps-15': "Experience premium performance with the Dell XPS 15. Featuring a stunning InfinityEdge display, powerful Intel Core i9 processor, and dedicated NVIDIA graphics.",
+  'google-pixel-8-pro': "The most advanced Pixel ever. Features a fully upgraded camera system, Google Tensor G3 chip, and a stunning Super Actua display.",
+  'crucial-x9-pro': "Accelerate your workflow with the powerful performance of the Crucial X9 Pro Portable SSD. High speed read and write for creators.",
+  'sandisk-ultra-1tb': "Transfer files quickly and easily with the SanDisk Ultra Dual Drive Luxe USB Type-C Flash Drive. All-metal design.",
+  'orico-enclosure': "Transform your old 2.5-inch SATA hard drive into a portable external drive with this transparent USB 3.0 enclosure.",
+  'starlink-standard': "High-speed, low-latency broadband internet across the globe. The Standard Kit includes everything you need to connect to the internet."
+};
+
 export default function ProductDetailPage({ params }: { params: { slug: string } }) {
   const router = useRouter();
-  const product = mockProducts.find((p) => p.slug === params.slug);
+  const [product, setProduct] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.from('products').select('*').eq('slug', params.slug).single().then(({ data }) => {
+      setProduct({ ...data, category: categoryMap[data.slug] || "Other", brand: brandMap[data.slug], specs: specsMap[data.slug], description: descMap[data.slug] || data.description });
+      setLoading(false);
+    });
+  }, [params.slug]);
+
+  if (loading) return <div className="min-h-screen py-24 flex justify-center items-center">Loading...</div>;
+  if (!product) return notFound();
   const addItem = useCartStore((state) => state.addItem);
   
   const { items: wishlistItems, toggleWishlist, fetchWishlist } = useWishlistStore();
@@ -131,7 +175,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Thumbnails */}
             {images.length > 1 && (
               <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                {images.map((img, idx) => (
+                {images.map((img: string, idx: number) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImage(idx)}

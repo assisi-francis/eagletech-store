@@ -1,0 +1,40 @@
+
+> eagletech-store@1.0.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/12) ...
+   Generating static pages (3/12) 
+   Generating static pages (6/12) 
+   Generating static pages (9/12) 
+ ✓ Generating static pages (12/12)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ƒ /                                    1.68 kB         229 kB
+├ ○ /_not-found                          873 B          88.2 kB
+├ ○ /admin                               5.94 kB         179 kB
+├ ƒ /api/checkout                        0 B                0 B
+├ ƒ /api/webhooks/paystack               0 B                0 B
+├ ○ /auth                                4.41 kB         219 kB
+├ ○ /checkout                            49.4 kB         221 kB
+├ ƒ /product/[slug]                      11.2 kB         229 kB
+├ ○ /profile                             9.45 kB         233 kB
+├ ○ /services/starlink-installation      3.51 kB         230 kB
+└ ○ /shop                                4.23 kB         186 kB
++ First Load JS shared by all            87.3 kB
+  ├ chunks/117-59c5de0773768968.js       31.7 kB
+  ├ chunks/fd9d1056-d6ae5370875315b7.js  53.6 kB
+  └ other shared chunks (total)          1.96 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
