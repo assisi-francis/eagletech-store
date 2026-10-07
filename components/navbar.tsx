@@ -20,18 +20,20 @@ export function Navbar() {
   useEffect(() => {
     let cartSub: any;
     let wishlistSub: any;
+    let isActive = true;
     
     supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!isActive) return;
       if (session?.user) {
         cartSub = supabase
-          .channel('web-carts-channel')
+          .channel(`web-carts-${Date.now()}`)
           .on('postgres_changes', { event: '*', schema: 'public', table: 'carts', filter: `user_id=eq.${session.user.id}` }, 
             () => { syncCartFromSupabase(); }
           )
           .subscribe();
           
         wishlistSub = supabase
-          .channel('web-wishlist-channel')
+          .channel(`web-wishlist-${Date.now()}`)
           .on('postgres_changes', { event: '*', schema: 'public', table: 'wishlist', filter: `user_id=eq.${session.user.id}` }, 
             () => { useWishlistStore.getState().fetchWishlist(session.user.id); }
           )
@@ -40,6 +42,7 @@ export function Navbar() {
     });
 
     return () => {
+      isActive = false;
       if (cartSub) supabase.removeChannel(cartSub);
       if (wishlistSub) supabase.removeChannel(wishlistSub);
     };
