@@ -27,14 +27,14 @@ export function Navbar() {
       if (session?.user) {
         cartSub = supabase
           .channel(`web-carts-${Date.now()}`)
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'carts', filter: `user_id=eq.${session.user.id}` }, 
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'carts' }, 
             () => { syncCartFromSupabase(); }
           )
           .subscribe();
           
         wishlistSub = supabase
           .channel(`web-wishlist-${Date.now()}`)
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'wishlist', filter: `user_id=eq.${session.user.id}` }, 
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'wishlist' }, 
             () => { useWishlistStore.getState().fetchWishlist(session.user.id); }
           )
           .subscribe();
