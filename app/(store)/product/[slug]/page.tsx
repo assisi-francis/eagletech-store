@@ -58,8 +58,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     });
   }, [params.slug]);
 
-  if (loading) return <div className="min-h-screen py-24 flex justify-center items-center">Loading...</div>;
-  if (!product) return notFound();
+
   const addItem = useCartStore((state) => state.addItem);
   
   const { items: wishlistItems, toggleWishlist, fetchWishlist } = useWishlistStore();
@@ -79,9 +78,8 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     });
   }, [fetchWishlist]);
 
-  if (!product) {
-    notFound();
-  }
+  if (loading) return <div className="min-h-screen py-24 flex justify-center items-center">Loading...</div>;
+  if (!product) return notFound();
 
   const handleAddToCart = () => {
     addItem(product);
