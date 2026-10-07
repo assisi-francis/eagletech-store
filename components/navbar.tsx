@@ -82,15 +82,20 @@ export function Navbar() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
-      if (session?.user) syncCartFromSupabase();
+      if (session?.user) {
+        syncCartFromSupabase();
+        useWishlistStore.getState().fetchWishlist(session.user.id);
+      }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         syncCartFromSupabase();
+        useWishlistStore.getState().fetchWishlist(session.user.id);
       } else if (event === 'SIGNED_OUT') {
         useCartStore.getState().clearCart();
+        useWishlistStore.getState().clearWishlist();
       }
     });
 
